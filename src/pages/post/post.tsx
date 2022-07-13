@@ -1,5 +1,5 @@
 import { Link, useParams } from "solid-app-router";
-import { createResource, For, Show, Suspense } from "solid-js";
+import { createResource, createSignal, For, Show, Suspense } from "solid-js";
 import { fetchItemData } from "../../common";
 import Comment from "./comment";
 
@@ -7,6 +7,7 @@ import Comment from "./comment";
 export default function Post(props) {
     const params = useParams();
     const [ post ] = createResource(params.id, fetchItemData);
+    const [ postCount, setPostCount ] = createSignal(10);
 
     return (
         <>
@@ -40,14 +41,20 @@ export default function Post(props) {
                     <Suspense>
                         <For each={post().kids}>
                             {(id, index) => (
-                                <Show when={ 10 > index() }>
+                                <Show when={ postCount() > index() }>
                                     <div class="my-8">
                                         <Comment id={id} />
                                     </div>
+
+                                    <hr />
                                 </Show>
                             )}
                         </For>
                     </Suspense>
+
+                    <div class="flex">
+                        <button class="my-10 mx-auto py-2 px-4 border-blue-400 border-2 rounded text-blue-400 hover:bg-blue-400 hover:text-light-50 transition" onClick={ () => setPostCount(postCount() + 10) }>Load more</button>
+                    </div>
                 </div>
             </Show>
         </>

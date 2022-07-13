@@ -26,11 +26,12 @@ h1 {
 }
 
 .post {
+    @apply rounded;
     transition: cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
 }
 
 .post:hover {
-    transform: translateY(-5%);
+    transform: translateY(-2%);
     box-shadow: 0px 10px 10px #d3d3d3;
 }
 
