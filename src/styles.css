@@ -42,7 +42,7 @@ h1 {
 @keyframes btm-in {
     0% {
         opacity: 0;
-        transform: translateY(10%);
+        transform: translateY(15%);
     }
 
     100% {
@@ -54,7 +54,7 @@ h1 {
 @keyframes top-in {
     0% {
         opacity: 0;
-        transform: translateY(-10%);
+        transform: translateY(-15%);
     }
 
     100% {

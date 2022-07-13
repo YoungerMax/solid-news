@@ -1,6 +1,5 @@
 import { lazy } from 'solid-js';
 import type { RouteDefinition } from 'solid-app-router';
-import { TOP_POSTS_URL, BEST_POSTS_URL, NEW_POSTS_URL } from './common';
 import Top from './pages/home/top';
 
 export const routes: RouteDefinition[] = [
@@ -14,6 +13,18 @@ export const routes: RouteDefinition[] = [
   },
   {
     path: '/new',
+    component: lazy(() => import('./pages/home/top')),
+  },
+  {
+    path: '/ask',
+    component: lazy(() => import('./pages/home/top')),
+  },
+  {
+    path: '/show',
+    component: lazy(() => import('./pages/home/top')),
+  },
+  {
+    path: '/jobs',
     component: lazy(() => import('./pages/home/top')),
   },
 

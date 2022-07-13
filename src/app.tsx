@@ -5,7 +5,6 @@ import { routes } from './routes';
 import faviconUrl from "./img/favicon.png";
 
 const App: Component = () => {
-	const location = useLocation();
 	const Route = useRoutes(routes);
 
 	return (

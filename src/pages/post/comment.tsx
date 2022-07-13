@@ -9,8 +9,12 @@ export default function Comment(props) {
         <>
             <Show when={ !comment.loading }>
                 <div class="transition-btm-in">
-                    <div innerHTML={comment().text} class="increase-line-spacing"></div>
-                    <p class="text-xs text-gray-500">by <Link href={"/profile/" + comment().by}>{comment().by}</Link></p>
+                    <Show when={ !comment().deleted } fallback={
+                        <p class="text-xs text-gray-500 italic">This comment was deleted.</p>
+                    }>
+                        <div innerHTML={comment().text} class="increase-line-spacing"></div>
+                        <p class="text-xs text-gray-500">by <Link href={"/profile/" + comment().by}>{comment().by}</Link></p>
+                    </Show> 
                 </div>
             </Show>
         </>
