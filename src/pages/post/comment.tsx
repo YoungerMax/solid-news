@@ -1,6 +1,7 @@
 import { Link } from "solid-app-router";
 import { createResource, Match, Show, Switch } from "solid-js";
 import { fetchItemData } from "../../common";
+import Loading from "../../components/loading";
 import { RichText, SmallText } from "../../components/typography";
 
 export default function Comment(props) {
@@ -8,7 +9,11 @@ export default function Comment(props) {
 
     return (
         <>
-            <Show when={ !comment.loading }>
+            <Show when={ !comment.loading } fallback={
+                <div class="py-12">
+                    <Loading />
+                </div>
+            }>
                 <div class="transition-btm-in">
                     <Switch fallback={
                         <>

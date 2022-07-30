@@ -1,6 +1,7 @@
 import { Link } from "solid-app-router";
 import { createResource, Suspense, Show, SuspenseList } from "solid-js";
 import { fetchItemData } from "../../common"; 
+import Loading from "../../components/loading";
 import Score from "../../components/score";
 import { DotSpaced, MediumText, SmallText, SubtitleText } from "../../components/typography";
 
@@ -8,46 +9,43 @@ export default function Headline(props) {
     let [ post ] = createResource(props.id, fetchItemData);
 
     return (
-        <Suspense>
-            <Show when={post() !== undefined && post !== null }>
-                <div class="p-8 transition-top-in post">
-                    <div class="flex gap-4">
-                        <Score score={post().score} />
+        <Show when={!post.loading} fallback={
+            <div class="px-8 py-12">
+                <Loading />
+            </div>
+        }>
+            <div class="p-8 transition-top-in post flex items-center">
+                <Score score={post().score} />
 
-                        <div>
-                            <SmallText>
-                                {post().type.toUpperCase()}
-                            </SmallText>
-                            
-                            {/* TODO: Check if this is a safe way to do this */}
-                            <Link href={"/post/" + post().id} style={{ "text-decoration": "none" }}>
-                                <h1 class="font-bold text-2xl">{post().title}</h1>
-                            </Link>
+                <div class="pl-4">
+                    <SmallText>
+                        {post().type.toUpperCase()}
+                    </SmallText>
 
-                            <SubtitleText>
-                                <DotSpaced>
-                                    <p>
-                                        by <Link href={"/profile/" + post().by}>
-                                            {post().by}
-                                        </Link>
-                                    </p>
+                    {/* TODO: Check if this is a safe way to do this */}
+                    <Link href={"/post/" + post().id} style={{ "text-decoration": "none" }}>
+                        <h1 class="font-bold text-2xl">{post().title}</h1>
+                    </Link>
 
-                                    <p>
-                                        {new Date(post().time * 1000).toLocaleString()}
-                                    </p>
-                                </DotSpaced>
-                            </SubtitleText>
+                    <SubtitleText>
+                        <DotSpaced>
+                            <p>
+                                by <Link href={"/profile/" + post().by}>{post().by}</Link>
+                            </p>
 
-                            <Show when={ post().url }>
-                                <Link target="_blank" href={post().url} class="flex gap-2">
-                                    {post().url}
-                                </Link>
-                                <br />
-                            </Show>
-                        </div>
-                    </div>
+                            <p>
+                                {new Date(post().time * 1000).toLocaleString()}
+                            </p>
+                        </DotSpaced>
+                    </SubtitleText>
+
+                    <Show when={ post().url }>
+                        <Link target="_blank" href={post().url} class="flex gap-2">
+                            {post().url}
+                        </Link>
+                    </Show>
                 </div>
-            </Show>
-        </Suspense>
+            </div>
+        </Show>
     );
 }

@@ -1,5 +1,5 @@
 import { Link, useLocation, useParams } from "solid-app-router";
-import { createEffect, createResource, createSignal, For, ResourceReturn, Show } from "solid-js";
+import { createEffect, createResource, createSignal, For, ResourceReturn, Show, SuspenseList } from "solid-js";
 import { ASK_POSTS_URL, BEST_POSTS_URL, JOB_POSTS_URL, NEW_POSTS_URL, SHOW_POSTS_URL, TOP_POSTS_URL } from "../../common";
 import Loading from "../../components/loading";
 import Headline from "./headline";
@@ -35,7 +35,11 @@ export default function Top() {
                 <Link href="/jobs" class={location.pathname === '/jobs' ? 'tab active' : 'tab'}>Jobs</Link>
             </div>
 
-            <Show when={!posts.loading} fallback={<Loading />}>
+            <Show when={!posts.loading} fallback={
+                <div class="py-12">
+                    <Loading />
+                </div>
+            }>
                 <For each={posts()}>
                     {(id, index) => (
                         <Show when={ postCount() > index() }>
