@@ -58,15 +58,13 @@ export default function Post(props) {
 
                     <Show when={ post().type === 'poll'}>
                         <div class="transition-btm-in">
-                            <Suspense>
-                                <For each={post().parts}>
-                                    {(id, index) => (
-                                        <div class="my-2">
-                                            <PollPart id={id} />
-                                        </div>
-                                    )}
-                                </For>
-                            </Suspense>
+                            <For each={post().parts}>
+                                {(id, index) => (
+                                    <div class="my-2">
+                                        <PollPart id={id} />
+                                    </div>
+                                )}
+                            </For>
                         </div>
                     </Show>
                     
