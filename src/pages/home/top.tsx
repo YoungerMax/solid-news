@@ -1,7 +1,10 @@
 import { Link, useLocation, useParams } from "solid-app-router";
 import { createEffect, createResource, createSignal, For, ResourceReturn, Show } from "solid-js";
 import { ASK_POSTS_URL, BEST_POSTS_URL, JOB_POSTS_URL, NEW_POSTS_URL, SHOW_POSTS_URL, TOP_POSTS_URL } from "../../common";
+import Loading from "../../components/loading";
 import Headline from "./headline";
+import { SmallText } from "../../components/typography";
+import Button from "../../components/button";
 
 const fetchPostIds = async (url) => (await fetch(url)).json();
 
@@ -32,23 +35,24 @@ export default function Top() {
                 <Link href="/jobs" class={location.pathname === '/jobs' ? 'tab active' : 'tab'}>Jobs</Link>
             </div>
 
-            <Show when={!posts.loading} fallback={
-                <p class="text-center text-xs text-gray-500 italic">Please wait a moment.</p>
-            }>
+            <Show when={!posts.loading} fallback={<Loading />}>
                 <For each={posts()}>
                     {(id, index) => (
                         <Show when={ postCount() > index() }>
                             <Headline id={id} />
-                            <hr />
                         </Show>
                     )}
                 </For>
 
                 <div class="flex">
                     <Show when={posts().length > postCount()} fallback={
-                        <p class="my-10 mx-auto text-xs text-gray-500 italic">You've reached the end.</p>
+                        <div class="my-10 mx-auto">
+                            <SmallText>You've reached the end.</SmallText>
+                        </div>
                     }>
-                        <button class="my-10 mx-auto py-2 px-4 border-blue-400 border-2 rounded text-blue-400 hover:bg-blue-400 hover:text-light-50 transition" onClick={ () => setPostCount(postCount() + 10) }>Load more</button>
+                        <div class="my-10 mx-auto">
+                            <Button onClick={ () => setPostCount(postCount() + 10) }>Load more</Button>
+                        </div>
                     </Show>
                 </div>
             </Show>

@@ -1,7 +1,10 @@
 import { Link, useParams } from "solid-app-router";
 import { createEffect, createResource, createSignal, For, Show, Suspense } from "solid-js";
 import { fetchItemData } from "../../common";
-import Score from "../../components/score";
+import Button from "../../components/button";
+import Loading from "../../components/loading";
+import PageTitle from "../../components/pagetitle";
+import { DotSpaced, RichText, SubtitleText, MediumText, SmallText } from "../../components/typography";
 import Comment from "./comment";
 import PollPart from "./pollpart";
 
@@ -13,30 +16,43 @@ export default function Post(props) {
 
     return (
         <>
-            <Show when={ !post.loading }>
+            <Show when={ !post.loading } fallback={<Loading />}>
                 <div>
-                    <div class="flex gap-2 mb-6 items-center transition-btm-in">
-                        <div class="max-w-8 max-h-8 cursor-pointer rounded-full hover:bg-gray-200 transition" onClick={ () => window.history.back() }>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><title>Back</title><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
-                        </div>
+                    <PageTitle title={post().title}>
+                        <SubtitleText>
+                            <DotSpaced>
+                                <p>
+                                    by <Link href={"/profile/" + post().by}>
+                                        {post().by}
+                                    </Link>
+                                </p>
 
-                        <Score score={post().score} />
+                                <p>
+                                    {new Date(post().time * 1000).toLocaleString()}
+                                </p>
 
-                        <div>
-                            <h3 class="font-bold text-2xl">{post().title}</h3>
-                            <p class="italic">by <Link href={"/profile/" + post().by}>{post().by}</Link> • {new Date(post().time * 1000).toLocaleString()}</p>
-                        </div>
-                    </div>
+                                <p>
+                                    {post().score} vote
+                                    
+                                    {/* Plural */}
+                                    <Show when={ post().score !== 1 }>
+                                        s
+                                    </Show>
+                                </p>
+                            </DotSpaced>
+                        </SubtitleText>
+                    </PageTitle>
 
                     <div class="mb-6 transition-btm-in">
                         <Show when={post().url}>
                             <Link target="_blank" href={post().url}>{post().url}</Link>
+                            <br /><br />
                         </Show>
 
                         <Show when={post().text} fallback={
-                            <p class="font-light italic">No desciption provided.</p>
+                            <MediumText>No description provided.</MediumText>
                         }>
-                            <div innerHTML={post().text} class="increase-line-spacing"></div>
+                            <RichText text={post().text} />
                         </Show>
                     </div>
 
@@ -65,8 +81,6 @@ export default function Post(props) {
                                             <div class="my-4">
                                                 <Comment id={id} />
                                             </div>
-
-                                            <hr />
                                         </Show>
                                     )}
                                 </For>
@@ -76,9 +90,13 @@ export default function Post(props) {
                     
                     <div class="flex transition-btm-in">
                         <Show when={post().kids && post().kids.length > postCount()} fallback={
-                            <p class="my-10 mx-auto text-xs text-gray-500 italic">You've reached the end.</p>
+                            <div class="my-10 mx-auto">
+                                <SmallText>You've reached the end.</SmallText>
+                            </div>
                         }>
-                            <button class="my-10 mx-auto py-2 px-4 border-blue-400 border-2 rounded text-blue-400 hover:bg-blue-400 hover:text-light-50 transition" onClick={ () => setPostCount(postCount() + 10) }>Load more</button>
+                            <div class="my-10 mx-auto">
+                                <Button onClick={ () => setPostCount(postCount() + 10) }>Load more</Button>
+                            </div>
                         </Show>
                     </div>
                 </div>

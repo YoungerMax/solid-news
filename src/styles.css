@@ -39,10 +39,14 @@ h1 {
     @apply mt-4;
 }
 
+.loading-animate {
+    animation: loading-bar-animate 2.5s linear infinite;
+}
+
 @keyframes btm-in {
     0% {
         opacity: 0;
-        transform: translateY(15%);
+        transform: translateY(10%);
     }
 
     100% {
@@ -54,11 +58,40 @@ h1 {
 @keyframes top-in {
     0% {
         opacity: 0;
-        transform: translateY(-15%);
+        transform: translateY(-10%);
     }
 
     100% {
         opacity: 1;
         transform: translateY(0%);
+    }
+}
+
+@keyframes loading-bar-animate {
+    0% {
+        margin-left: -100%;
+    }
+
+    25% {
+        @apply w-50;
+    }
+
+    50% {
+        @apply w-35;
+        margin-left: 100%;
+    }
+
+    50.1% {
+        @apply w-50;
+        margin-left: -100%;
+    }
+
+    75% {
+        margin-left: 0%;
+    }
+
+    100% {
+        @apply w-100;
+        margin-left: 100%;
     }
 }

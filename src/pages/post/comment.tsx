@@ -1,6 +1,7 @@
 import { Link } from "solid-app-router";
-import { createResource, Show } from "solid-js";
+import { createResource, Match, Show, Switch } from "solid-js";
 import { fetchItemData } from "../../common";
+import { RichText, SmallText } from "../../components/typography";
 
 export default function Comment(props) {
     const [ comment ] = createResource(props.id, fetchItemData);
@@ -9,12 +10,20 @@ export default function Comment(props) {
         <>
             <Show when={ !comment.loading }>
                 <div class="transition-btm-in">
-                    <Show when={ !comment().deleted } fallback={
-                        <p class="text-xs text-gray-500 italic">This comment was deleted.</p>
+                    <Switch fallback={
+                        <>
+                            <RichText text={comment().text} />
+                            <SmallText>by <Link href={"/profile/" + comment().by}>{comment().by}</Link></SmallText>
+                        </>
                     }>
-                        <div innerHTML={comment().text} class="increase-line-spacing"></div>
-                        <p class="text-xs text-gray-500">by <Link href={"/profile/" + comment().by}>{comment().by}</Link></p>
-                    </Show> 
+                        <Match when={ comment().deleted }>
+                            <SmallText>This comment was deleted.</SmallText>
+                        </Match>
+
+                        <Match when={ comment().dead }>
+                            <SmallText>This comment is dead.</SmallText>
+                        </Match>
+                    </Switch>
                 </div>
             </Show>
         </>
