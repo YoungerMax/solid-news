@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "bs": "vite build && vite preview"
+    "bs": "vite build && vite preview --host"
   },
   "license": "MIT",
   "devDependencies": {

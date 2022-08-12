@@ -3,12 +3,12 @@ import 'windi.css';
 import './styles.css';
 
 import { render } from 'solid-js/web';
-import { Router } from 'solid-app-router';
+import { hashIntegration, Router } from 'solid-app-router';
 import App from './app';
 
 render(
   () => (
-    <Router>
+    <Router source={hashIntegration()}>
       <App />
     </Router>
   ),

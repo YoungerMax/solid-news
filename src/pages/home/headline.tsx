@@ -1,11 +1,13 @@
 import { Link } from "solid-app-router";
-import { createResource, Suspense, Show, SuspenseList } from "solid-js";
+import { createResource, Suspense, Show, SuspenseList, createEffect } from "solid-js";
 import { fetchItemData } from "../../common"; 
 import Loading from "../../components/loading";
 import Score from "../../components/score";
 import { DotSpaced, MediumText, SmallText, SubtitleText } from "../../components/typography";
+import AppState from "../../state";
 
 export default function Headline(props) {
+    const [ appState ] = AppState;
     let [ post ] = createResource(props.id, fetchItemData);
 
     return (
@@ -15,12 +17,16 @@ export default function Headline(props) {
             </div>
         }>
             <div class="p-8 transition-top-in post flex items-center">
-                <Score score={post().score} />
+                <div class="hidden sm:block">
+                    <Score score={post().score} url={post().url} />
+                </div>
 
                 <div class="pl-4">
-                    <SmallText>
-                        {post().type.toUpperCase()}
-                    </SmallText>
+                    <Show when={appState.settings['show-post-type']}>
+                        <SmallText>
+                            {post().type.toUpperCase()}
+                        </SmallText>
+                    </Show>
 
                     {/* TODO: Check if this is a safe way to do this */}
                     <Link href={"/post/" + post().id} style={{ "text-decoration": "none" }}>
@@ -41,7 +47,9 @@ export default function Headline(props) {
 
                     <Show when={ post().url }>
                         <Link target="_blank" href={post().url} class="flex gap-2">
-                            {post().url}
+                            <Show when={appState.settings['only-show-domains-for-links']} fallback={post().url}>
+                                {new URL(post().url).host}
+                            </Show>
                         </Link>
                     </Show>
                 </div>

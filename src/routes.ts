@@ -29,6 +29,11 @@ export const routes: RouteDefinition[] = [
   },
 
   {
+    path: '/settings',
+    component: lazy(() => import('./pages/settings/settings'))
+  },
+
+  {
     path: '/post/:id',
     component: lazy(() => import('./pages/post/post')),
   },

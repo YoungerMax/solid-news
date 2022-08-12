@@ -8,12 +8,14 @@ import { DotSpaced, RichText, SubtitleText, MediumText, SmallText } from "../../
 import Comment from "./comment";
 import PollPart from "./pollpart";
 import Error from "../../components/error";
+import AppState from "../../state";
 
 
 export default function Post(props) {
     const params = useParams();
     const [ post ] = createResource(params.id, fetchItemData);
-    const [ postCount, setPostCount ] = createSignal(10);
+    const [ appState ] = AppState;
+    const [ postCount, setPostCount ] = createSignal(appState.settings['number-of-comments-to-load']);
 
     return (
         <>
@@ -97,7 +99,7 @@ export default function Post(props) {
                                 </div>
                             }>
                                 <div class="my-10 mx-auto">
-                                    <Button onClick={ () => setPostCount(postCount() + 10) }>Load more</Button>
+                                    <Button onClick={ () => setPostCount(postCount() + appState.settings['number-of-comments-to-load']) }>Load more</Button>
                                 </div>
                             </Show>
                         </div>

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite-plugin-windicss';
 
 export default defineConfig({
-  darkMode: false,
+  darkMode: 'class',
   theme: {
     extend: {},
   },
