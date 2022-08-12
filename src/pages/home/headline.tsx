@@ -16,7 +16,7 @@ export default function Headline(props) {
                 <Loading />
             </div>
         }>
-            <div class="p-8 transition-top-in post flex items-center">
+            <div class="p-8 transition-top-in post flex items-center border-b-1 border-b-gray-300">
                 <div class="hidden sm:block">
                     <Score score={post().score} url={post().url} />
                 </div>

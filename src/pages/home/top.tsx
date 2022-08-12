@@ -13,7 +13,7 @@ const fetchPostIds = async (url) => (await fetch(url)).json();
 export default function Top() {
     const location = useLocation();
     const [ appState ] = AppState;
-    const [ postCount, setPostCount ] = createSignal(appState.settings['number-of-posts-to-load'] || 10);
+    const [ postCount, setPostCount ] = createSignal(appState.settings['number-of-posts-to-load']);
     
     const routeToUrl = {
         '/': TOP_POSTS_URL,
@@ -28,7 +28,7 @@ export default function Top() {
 
     return (
         <>
-            <div class="mb-4 transition-top-in">
+            <div class="mb-4 transition-top-in <sm:mx-auto">
                 <Link href="/" class={location.pathname === '/' ? 'tab active' : 'tab'}>Top</Link>
                 <Link href="/best" class={location.pathname === '/best' ? 'tab active' : 'tab'}>Best</Link>
                 <Link href="/new" class={location.pathname === '/new' ? 'tab active' : 'tab'}>New</Link>
@@ -57,7 +57,7 @@ export default function Top() {
                         </div>
                     }>
                         <div class="my-10 mx-auto">
-                            <Button onClick={ () => setPostCount(postCount() + appState.settings['number-of-posts-to-load'] || 10) }>Load more</Button>
+                            <Button onClick={ () => setPostCount(postCount() + appState.settings['number-of-posts-to-load']) }>Load more</Button>
                         </div>
                     </Show>
                 </div>
