@@ -1,0 +1,1 @@
+import{r as o,i as e,c as l,E as s,t as c}from"./index.a0df4e70.js";const i=c('<div class="p-4 border-red-500 text-red-500 fill-red-500 rounded border-1 flex items-center gap-2 transition-top-in"></div>');function a(t){const n=o(()=>t.children);return(()=>{const r=i.cloneNode(!0);return e(r,l(s,{}),null),e(r,n,null),r})()}export{a as E};
